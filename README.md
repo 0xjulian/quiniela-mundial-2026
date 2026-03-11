@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quiniela Mundial FIFA 2026
 
-## Getting Started
+Web app de predicciones para el Mundial FIFA 2026 (USA, Canadá, México). Pensada para grupos privados (amigos/familia). Stack: **Next.js**, **Supabase**, **Vercel**.
 
-First, run the development server:
+## Requisitos
+
+- Node 18+
+- Cuenta [Supabase](https://supabase.com) y [Vercel](https://vercel.com)
+
+## Instalación
+
+```bash
+npm install
+cp .env.local.example .env.local
+```
+
+En `.env.local` define:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+## Base de datos (Supabase)
+
+1. Crea un proyecto en Supabase.
+2. En **SQL Editor** ejecuta en este orden:
+   - `supabase/schema.sql`
+   - Opcional: crea al menos un grupo, por ejemplo:
+     ```sql
+     INSERT INTO grupos (codigo, nombre) VALUES ('FAMILIA2026', 'Quiniela Familia');
+     ```
+   - `supabase/seed-partidos.sql` (partidos de fase de grupos)
+3. En **Authentication > Providers** deja habilitado Email; si quieres registro sin confirmar correo, desactiva "Confirm email" en Email.
+
+## Desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000): splash → Continuar → Login. Para probar, regístrate con un código de grupo que exista en la tabla `grupos` (ej. `FAMILIA2026`), usuario y contraseña. Luego en Supabase marca a ese usuario `aprobado = true` y `pagado = true` para poder hacer predicciones.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build y deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+En Vercel: conecta el repo y configura las mismas variables de entorno.
 
-To learn more about Next.js, take a look at the following resources:
+## Estructura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Inicio**: selector de grupo (A–L), tabla predicha, partidos del grupo con inputs de marcador, elección de campeón (+5 pts).
+- **Resultados**: podio, tabla de puntos (exactos, correctos, dinero).
+- **Partidos**: lista de partidos con resultado real o “pendiente”.
+- **Reglas**: sistema de puntos, cierre de predicciones, premio.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Roles
 
-## Deploy on Vercel
+- **Admin**: aprobar/desaprobar participantes, cargar resultados reales, gestionar grupo (desde Supabase o una futura zona admin).
+- **Participante**: registrarse con código de grupo, hacer predicciones, ver leaderboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Diseño
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Mobile-first (max-width 430px), responsive.
+- Paleta: fondo #F5F2ED, cards #FFFFFF, acento #D4A843, azul FIFA #1A3A6B, alerta #C8392B.
+- Tipografía: Georgia / Times New Roman (serif), Courier New (marcadores/números).
