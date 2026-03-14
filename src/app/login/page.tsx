@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { emailFromUsername } from "@/lib/auth";
 
+type Mode = "login" | "register";
+
 export default function LoginPage() {
   const router = useRouter();
-  const submitModeRef = useRef<"login" | "register">("login");
+  const submitModeRef = useRef<Mode>("login");
   const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
@@ -20,9 +22,11 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [mode, setMode] = useState<Mode>("login");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,7 +41,7 @@ export default function LoginPage() {
         const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { grupo_code: "GLOBAL", username: username.trim() } },
+          options: { data: { grupo_code: "GLOBAL", username: username.trim(), phone: phone.trim() } },
         });
         if (signUpError) throw signUpError;
         if (signUpData.user && !signUpData.user.identities?.length) {
@@ -45,14 +49,15 @@ export default function LoginPage() {
           setLoading(false);
           return;
         }
-        setError("Cuenta creada. Ahora inicia sesión con tu usuario y contraseña.");
-        setLoading(false);
-        submitModeRef.current = "login";
-        return;
+        // Auto-login: misma sesión o hacemos signIn con los mismos datos
+        if (!signUpData.session) {
+          const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+          if (signInErr) throw signInErr;
+        }
+      } else {
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError) throw signInError;
       }
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) throw signInError;
       router.push("/inicio");
       router.refresh();
     } catch (err: unknown) {
@@ -70,15 +75,7 @@ export default function LoginPage() {
         aria-hidden
       />
       <div className="absolute inset-0 bg-[#0A0A0A]/40" aria-hidden />
-      <div
-        className="relative z-10 w-full max-w-[380px] flex flex-col min-h-[80vh] pt-8 pb-8"
-        onClick={() => {
-          if (showForm && !loading) {
-            setShowForm(false);
-            setError("");
-          }
-        }}
-      >
+      <div className="relative z-10 w-full max-w-[380px] flex flex-col min-h-[80vh] pt-8 pb-8">
         <div className="text-center mb-6">
           <h1 className="font-serif text-2xl font-bold text-white drop-shadow-md">
             Quiniela Mundial 2026
@@ -86,11 +83,15 @@ export default function LoginPage() {
         </div>
 
         {showForm && (
-          <div
-            className="bg-white rounded-xl border border-[#E8E3DC] p-6 shadow-lg mt-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="font-serif text-lg font-bold text-[#0A0A0A] text-center mb-6">Acceso</h2>
+          <div className="bg-white rounded-xl border border-[#E8E3DC] p-6 shadow-lg mt-6">
+            <h2 className="font-serif text-lg font-bold text-[#0A0A0A] text-center mb-2">
+              {mode === "login" ? "Iniciar sesión" : "Crear cuenta"}
+            </h2>
+            <p className="mb-4 text-center text-xs text-[#0A0A0A]/70 font-serif">
+              {mode === "login"
+                ? "Entra con tu usuario y contraseña."
+                : "Elige un usuario, tu teléfono y una contraseña."}
+            </p>
             <form ref={formRef} onSubmit={handleSubmit}>
               <input
                 type="text"
@@ -100,6 +101,15 @@ export default function LoginPage() {
                 className="w-full px-4 py-3 border border-[#E8E3DC] rounded-lg font-serif text-[#0A0A0A] mb-3 placeholder:text-[#0A0A0A]/50"
                 required
               />
+              {mode === "register" && (
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Teléfono (opcional)"
+                  className="w-full px-4 py-3 border border-[#E8E3DC] rounded-lg font-serif text-[#0A0A0A] mb-3 placeholder:text-[#0A0A0A]/50"
+                />
+              )}
               <input
                 type="password"
                 value={password}
@@ -121,6 +131,8 @@ export default function LoginPage() {
                   onClick={() => {
                     setShowForm(false);
                     setError("");
+                    setPhone("");
+                    setPassword("");
                   }}
                   className="underline"
                 >
@@ -135,7 +147,11 @@ export default function LoginPage() {
           {!showForm && (
             <button
               type="button"
-              onClick={() => setShowForm(true)}
+              onClick={() => {
+                setMode("login");
+                submitModeRef.current = "login";
+                setShowForm(true);
+              }}
               className="w-full py-3 rounded-lg bg-[#1A3A6B] text-white font-serif font-medium shadow-lg"
             >
               Iniciar sesión / Crear cuenta
@@ -148,27 +164,31 @@ export default function LoginPage() {
                 type="button"
                 disabled={loading}
                 onClick={() => {
-                  submitModeRef.current = "login";
+                  submitModeRef.current = mode;
                   setError("");
                   formRef.current?.requestSubmit();
                 }}
                 className="mt-4 w-full py-3 rounded-lg bg-[#1A3A6B] text-white font-serif font-medium disabled:opacity-60"
               >
-                {loading && submitModeRef.current === "login" ? "..." : "Iniciar sesión"}
+                {loading
+                  ? "..."
+                  : mode === "login"
+                    ? "Iniciar sesión"
+                    : "Crear cuenta"}
               </button>
-
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => {
-                  submitModeRef.current = "register";
-                  setError("");
-                  formRef.current?.requestSubmit();
-                }}
-                className="mt-3 w-full text-sm text-white font-serif underline disabled:opacity-60"
-              >
-                {loading && submitModeRef.current === "register" ? "Creando cuenta..." : "Crear cuenta"}
-              </button>
+              <p className="mt-3 text-center text-sm text-white/90 font-serif">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode(mode === "login" ? "register" : "login");
+                    submitModeRef.current = mode === "login" ? "register" : "login";
+                    setError("");
+                  }}
+                  className="underline"
+                >
+                  {mode === "login" ? "¿No tienes cuenta? Crear cuenta" : "¿Ya tienes cuenta? Iniciar sesión"}
+                </button>
+              </p>
             </>
           )}
         </div>

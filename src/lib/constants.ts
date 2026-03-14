@@ -1,21 +1,84 @@
 // FIFA World Cup 2026 — 12 groups A–L, 4 teams each (48 teams)
-// Placeholder names; replace with actual qualified teams when known.
+// Source: Mundial_2026_Calendario_Definitivo.xlsx - Grupos.csv
 export const GRUPOS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'] as const;
 export type GrupoLetter = (typeof GRUPOS)[number];
 
 export const EQUIPOS_POR_GRUPO: Record<GrupoLetter, string[]> = {
-  A: ['Canadá', 'México', 'USA', 'TBD'],
-  B: ['Argentina', 'TBD', 'TBD', 'TBD'],
-  C: ['Brasil', 'TBD', 'TBD', 'TBD'],
-  D: ['Francia', 'TBD', 'TBD', 'TBD'],
-  E: ['Alemania', 'TBD', 'TBD', 'TBD'],
-  F: ['España', 'TBD', 'TBD', 'TBD'],
-  G: ['Inglaterra', 'TBD', 'TBD', 'TBD'],
-  H: ['Portugal', 'TBD', 'TBD', 'TBD'],
-  I: ['Bélgica', 'TBD', 'TBD', 'TBD'],
-  J: ['Países Bajos', 'TBD', 'TBD', 'TBD'],
-  K: ['Uruguay', 'TBD', 'TBD', 'TBD'],
-  L: ['Italia', 'TBD', 'TBD', 'TBD'],
+  A: ['México', 'Sudáfrica', 'Corea del Sur', 'PO UEFA D'],
+  B: ['Canadá', 'PO UEFA A', 'Qatar', 'Suiza'],
+  C: ['Brasil', 'Marruecos', 'Haití', 'Escocia'],
+  D: ['Estados Unidos', 'Paraguay', 'Australia', 'PO UEFA C'],
+  E: ['Alemania', 'Curazao', 'Costa de Marfil', 'Ecuador'],
+  F: ['Países Bajos', 'Japón', 'PO UEFA B', 'Túnez'],
+  G: ['Bélgica', 'Egipto', 'Irán', 'Nueva Zelanda'],
+  H: ['España', 'Cabo Verde', 'Arabia Saudita', 'Uruguay'],
+  I: ['Francia', 'Senegal', 'PO IC 2', 'Noruega'],
+  J: ['Argentina', 'Argelia', 'Austria', 'Jordania'],
+  K: ['Portugal', 'PO IC 1', 'Uzbekistán', 'Colombia'],
+  L: ['Inglaterra', 'Croacia', 'Ghana', 'Panamá'],
+};
+
+export const BANDERAS_POR_EQUIPO: Record<string, string> = {
+  // Grupo A
+  'México': '🇲🇽',
+  'Sudáfrica': '🇿🇦',
+  'Corea del Sur': '🇰🇷',
+  'PO UEFA D': '',
+  // Grupo B
+  'Canadá': '🇨🇦',
+  'PO UEFA A': '',
+  'Qatar': '🇶🇦',
+  'Suiza': '🇨🇭',
+  // Grupo C
+  'Brasil': '🇧🇷',
+  'Marruecos': '🇲🇦',
+  'Haití': '🇭🇹',
+  'Escocia': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  // Grupo D
+  'Estados Unidos': '🇺🇸',
+  'Paraguay': '🇵🇾',
+  'Australia': '🇦🇺',
+  'PO UEFA C': '',
+  // Grupo E
+  'Alemania': '🇩🇪',
+  'Curazao': '🇨🇼',
+  'Costa de Marfil': '🇨🇮',
+  'Ecuador': '🇪🇨',
+  // Grupo F
+  'Países Bajos': '🇳🇱',
+  'Japón': '🇯🇵',
+  'PO UEFA B': '',
+  'Túnez': '🇹🇳',
+  // Grupo G
+  'Bélgica': '🇧🇪',
+  'Egipto': '🇪🇬',
+  'Irán': '🇮🇷',
+  'Nueva Zelanda': '🇳🇿',
+  // Grupo H
+  'España': '🇪🇸',
+  'Cabo Verde': '🇨🇻',
+  'Arabia Saudita': '🇸🇦',
+  'Uruguay': '🇺🇾',
+  // Grupo I
+  'Francia': '🇫🇷',
+  'Senegal': '🇸🇳',
+  'PO IC 2': '',
+  'Noruega': '🇳🇴',
+  // Grupo J
+  'Argentina': '🇦🇷',
+  'Argelia': '🇩🇿',
+  'Austria': '🇦🇹',
+  'Jordania': '🇯🇴',
+  // Grupo K
+  'Portugal': '🇵🇹',
+  'PO IC 1': '',
+  'Uzbekistán': '🇺🇿',
+  'Colombia': '🇨🇴',
+  // Grupo L
+  'Inglaterra': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+  'Croacia': '🇭🇷',
+  'Ghana': '🇬🇭',
+  'Panamá': '🇵🇦',
 };
 
 // All 48 team names for champion pick

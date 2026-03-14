@@ -1,0 +1,14 @@
+-- =============================================================================
+-- ORDEN DE EJECUCIÓN — Quiniela Mundial FIFA 2026
+-- =============================================================================
+-- No ejecutes este archivo tal cual. En el SQL Editor de Supabase ejecuta
+-- los archivos en este orden (copia y pega cada uno, o ábrelos y Run):
+--
+--   1. 01-schema.sql   → tablas e índices
+--   2. 02-policies.sql → RLS y políticas
+--   3. 03-seed.sql     → grupo GLOBAL (necesario para login)
+--   4. 04-triggers.sql → trigger que crea perfil al registrarse
+--   5. 05-seed-partidos.sql → (opcional) partidos de ejemplo
+--
+-- Ver supabase/README.md para más detalle.
+-- =============================================================================

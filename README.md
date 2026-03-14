@@ -19,17 +19,12 @@ En `.env.local` define:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-## Base de datos (Supabase)
+## Base de datos (Supabase) — un solo paso
 
 1. Crea un proyecto en Supabase.
-2. En **SQL Editor** ejecuta en este orden:
-   - `supabase/schema.sql`
-   - Opcional: crea al menos un grupo, por ejemplo:
-     ```sql
-     INSERT INTO grupos (codigo, nombre) VALUES ('FAMILIA2026', 'Quiniela Familia');
-     ```
-   - `supabase/seed-partidos.sql` (partidos de fase de grupos)
-3. En **Authentication > Providers** deja habilitado Email; si quieres registro sin confirmar correo, desactiva "Confirm email" en Email.
+2. En **SQL Editor** → Nueva query → pega **todo** el contenido de `supabase/init.sql` → Run.
+   - Eso crea tablas, RLS, el grupo GLOBAL y los 72 partidos de fase de grupos. No hace falta ejecutar otros scripts.
+3. En **Authentication > Providers** (Email): si quieres que “Crear cuenta” deje entrar sin confirmar correo, desactiva **Confirm email**.
 
 ## Desarrollo
 
@@ -37,7 +32,7 @@ En `.env.local` define:
 npm run dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000): splash → Continuar → Login. Para probar, regístrate con un código de grupo que exista en la tabla `grupos` (ej. `FAMILIA2026`), usuario y contraseña. Luego en Supabase marca a ese usuario `aprobado = true` y `pagado = true` para poder hacer predicciones.
+Abre [http://localhost:3000](http://localhost:3000): splash 1,5 s → pantalla de acceso. **Crear cuenta**: usuario, teléfono (opcional) y contraseña (≥ 6 caracteres) → entras directo. **Iniciar sesión**: usuario y contraseña. En Supabase puedes marcar `aprobado = true` y `pagado = true` en la tabla `users` para permitir predicciones.
 
 ## Build y deploy
 

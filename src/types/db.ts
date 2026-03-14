@@ -19,12 +19,15 @@ export interface Grupo {
 
 export interface Partido {
   id: string;
+  match_no: number | null;
   grupo: string;
   equipo_local: string;
   equipo_visitante: string;
   fecha: string;
   hora: string | null;
+  estadio: string | null;
   ciudad: string | null;
+  pais: string | null;
   goles_local_real: number | null;
   goles_visitante_real: number | null;
   cerrado: boolean;
