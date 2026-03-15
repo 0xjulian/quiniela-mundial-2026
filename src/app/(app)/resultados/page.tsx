@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase";
 import { useUser } from "@/context/UserContext";
 
@@ -18,48 +18,39 @@ export default function ResultadosPage() {
   const { user } = useUser();
   const [rows, setRows] = useState<LeaderboardRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [error, setError] = useState<string | null>(null);
+  const supabaseRef = useRef(createClient());
+  const supabase = supabaseRef.current;
 
   async function load() {
-    if (!user?.grupo_code) return;
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
-    const { data: users } = await supabase
-      .from("users")
-      .select("id, username")
-      .eq("grupo_code", user.grupo_code);
-    if (!users?.length) {
+    setError(null);
+    const { data, error: rpcError } = await supabase.rpc("get_leaderboard");
+    if (rpcError) {
+      setError(rpcError.message || "No se pudo cargar la tabla.");
       setRows([]);
       setLoading(false);
       return;
     }
-    const userIds = users.map((u) => u.id);
-    const { data: puntos } = await supabase
-      .from("puntos")
-      .select("user_id, puntos_obtenidos, tipo")
-      .in("user_id", userIds);
-    const byUser: Record<string, { total: number; exactos: number; correctos: number }> = {};
-    for (const u of users) byUser[u.id] = { total: 0, exactos: 0, correctos: 0 };
-    for (const p of puntos ?? []) {
-      byUser[p.user_id].total += p.puntos_obtenidos;
-      if (p.tipo === "exacto") byUser[p.user_id].exactos += 1;
-      else if (p.tipo === "correcto") byUser[p.user_id].correctos += 1;
-    }
+    const raw = (data ?? []) as Array<{
+      id: string;
+      username: string;
+      puntos_totales: number;
+      exactos: number;
+      correctos: number;
+    }>;
     const distribucion: Record<number, number> = { 1: 50, 2: 30, 3: 20 };
-    const sorted = users
-      .map((u) => ({
-        ...u,
-        puntos_totales: byUser[u.id].total,
-        exactos: byUser[u.id].exactos,
-        correctos: byUser[u.id].correctos,
-      }))
-      .sort((a, b) => b.puntos_totales - a.puntos_totales);
     const totalBote = 100;
-    const withMoney: LeaderboardRow[] = sorted.map((r, i) => ({
+    const withMoney: LeaderboardRow[] = raw.map((r, i) => ({
       id: r.id,
       username: r.username,
-      puntos_totales: r.puntos_totales,
-      exactos: r.exactos,
-      correctos: r.correctos,
+      puntos_totales: Number(r.puntos_totales),
+      exactos: Number(r.exactos),
+      correctos: Number(r.correctos),
       dinero: i < 3 ? (totalBote * (distribucion[i + 1] ?? 0)) / 100 : 0,
       posicion: i + 1,
     }));
@@ -68,12 +59,21 @@ export default function ResultadosPage() {
   }
 
   useEffect(() => {
-    load();
-  }, [user?.grupo_code, supabase]);
+    let cancelled = false;
+    if (!user) {
+      setLoading(false);
+      return () => {};
+    }
+    load().then(() => {
+      if (cancelled) return;
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
 
   if (loading) return <div className="p-4 font-serif">Cargando…</div>;
 
-  const top3 = rows.slice(0, 3);
   const myPos = rows.findIndex((r) => r.id === user?.id);
 
   return (
@@ -82,7 +82,7 @@ export default function ResultadosPage() {
         <h1 className="font-serif text-xl font-bold text-[#0A0A0A]">Resultados</h1>
         <button
           type="button"
-          onClick={load}
+          onClick={() => load()}
           className="p-2 rounded-full text-[#1A3A6B] hover:bg-[#1A3A6B]/10"
           title="Actualizar"
           aria-label="Actualizar"
@@ -91,7 +91,18 @@ export default function ResultadosPage() {
         </button>
       </div>
 
+      {error && (
+        <div className="mb-4 rounded-lg bg-[#C8392B]/10 border border-[#C8392B]/30 px-3 py-2 text-sm text-[#C8392B] font-serif">
+          {error}
+        </div>
+      )}
+
       {/* Tabla leaderboard */}
+      {rows.length === 0 && !error ? (
+        <p className="text-sm text-[#0A0A0A]/70 font-serif py-6 text-center">
+          Aún no hay puntos cargados. La tabla se actualizará cuando se registren resultados.
+        </p>
+      ) : (
       <div className="bg-white rounded-xl border border-[#E8E3DC] shadow-sm overflow-hidden">
         <table className="w-full text-left font-serif text-sm">
           <thead>
@@ -134,8 +145,9 @@ export default function ResultadosPage() {
           </tbody>
         </table>
       </div>
+      )}
 
-      {myPos >= 0 && (
+      {myPos >= 0 && rows.length > 0 && (
         <p className="mt-4 text-sm text-[#0A0A0A]/70 font-serif">
           Tu posición: <strong className="font-mono">#{myPos + 1}</strong>
         </p>

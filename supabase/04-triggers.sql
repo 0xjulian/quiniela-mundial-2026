@@ -102,3 +102,49 @@ AS $$
     SELECT 1 FROM public.users WHERE id = auth.uid() AND es_admin = true
   );
 $$;
+
+-- -----------------------------------------------------------------------------
+-- RPC: leaderboard del grupo del usuario actual (para pestaña Resultados)
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION public.get_leaderboard()
+RETURNS TABLE(
+  id uuid,
+  username text,
+  puntos_totales bigint,
+  exactos bigint,
+  correctos bigint
+)
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+SET row_security = off
+AS $$
+  WITH my_group AS (
+    SELECT u.grupo_code FROM public.users u WHERE u.id = auth.uid() LIMIT 1
+  ),
+  group_users AS (
+    SELECT u.id, u.username
+    FROM public.users u
+    CROSS JOIN my_group g
+    WHERE u.grupo_code = g.grupo_code
+      AND (u.es_admin IS NOT TRUE)
+  ),
+  user_puntos AS (
+    SELECT p.user_id,
+      COALESCE(SUM(p.puntos_obtenidos), 0)::bigint AS total,
+      COUNT(*) FILTER (WHERE p.tipo = 'exacto')::bigint AS exactos,
+      COUNT(*) FILTER (WHERE p.tipo = 'correcto')::bigint AS correctos
+    FROM public.puntos p
+    INNER JOIN group_users gu ON gu.id = p.user_id
+    GROUP BY p.user_id
+  )
+  SELECT
+    gu.id,
+    gu.username,
+    COALESCE(up.total, 0)::bigint,
+    COALESCE(up.exactos, 0)::bigint,
+    COALESCE(up.correctos, 0)::bigint
+  FROM group_users gu
+  LEFT JOIN user_puntos up ON up.user_id = gu.id
+  ORDER BY COALESCE(up.total, 0) DESC, gu.username;
+$$;
