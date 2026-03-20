@@ -28,8 +28,31 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       setProfileError(null);
       try {
-        const { data: { user: authUser } } = await supabase.auth.getUser();
+        const {
+          data: { user: authUser },
+          error: authError,
+        } = await supabase.auth.getUser();
+
         if (cancelled) return;
+
+        // Sesión rota en el navegador (token revocado, proyecto distinto, datos borrados)
+        if (authError) {
+          const m = (authError.message ?? "").toLowerCase();
+          if (
+            m.includes("refresh") ||
+            m.includes("invalid") ||
+            authError.status === 401
+          ) {
+            await supabase.auth.signOut({ scope: "local" });
+            router.replace("/login");
+            setLoading(false);
+            return;
+          }
+          setProfileError(authError.message);
+          setLoading(false);
+          return;
+        }
+
         if (!authUser) {
           router.replace("/login");
           setLoading(false);
@@ -64,6 +87,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       } catch (err: unknown) {
         if (cancelled) return;
         const message = err instanceof Error ? err.message : String(err);
+        const low = message.toLowerCase();
+        if (low.includes("refresh token") || low.includes("invalid refresh")) {
+          await supabase.auth.signOut({ scope: "local" });
+          router.replace("/login");
+          setLoading(false);
+          return;
+        }
         const isNetwork = /failed to fetch|network|load failed/i.test(message);
         setProfileError(
           isNetwork

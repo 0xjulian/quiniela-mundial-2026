@@ -1,17 +1,22 @@
 import Image from "next/image";
 
-const NAV_ICON_SIZE = 32;
+/**
+ * Todos los iconos del BottomNav comparten caja lógica (object-contain).
+ * Tamaños en px para Next/Image + clases para que ocupen el mismo “slot” visual.
+ */
+const IMG_BASE = 64;
 
 const iconClass = (filled?: boolean) => (filled ? "opacity-100" : "opacity-80");
 
+/** Misma caja que el resto; Inicio ~10% más pequeño dentro del slot */
 export function HomeIcon({ filled }: { filled?: boolean }) {
   return (
     <Image
       src="/estadio.png"
       alt="Inicio"
-      width={NAV_ICON_SIZE}
-      height={NAV_ICON_SIZE}
-      className={`object-contain ${iconClass(filled)}`}
+      width={IMG_BASE}
+      height={IMG_BASE}
+      className={`object-contain max-h-[31px] max-w-[31px] h-[31px] w-[31px] ${iconClass(filled)}`}
     />
   );
 }
@@ -21,9 +26,9 @@ export function TrophyIcon({ filled }: { filled?: boolean }) {
     <Image
       src="/worldcup.png"
       alt="Tabla"
-      width={NAV_ICON_SIZE}
-      height={NAV_ICON_SIZE}
-      className={`object-contain ${iconClass(filled)}`}
+      width={IMG_BASE}
+      height={IMG_BASE}
+      className={`object-contain max-h-[34px] max-w-[34px] h-[34px] w-[34px] ${iconClass(filled)}`}
     />
   );
 }
@@ -33,9 +38,9 @@ export function BallIcon({ filled }: { filled?: boolean }) {
     <Image
       src="/silbato.png"
       alt="Partidos"
-      width={NAV_ICON_SIZE}
-      height={NAV_ICON_SIZE}
-      className={`object-contain ${iconClass(filled)}`}
+      width={IMG_BASE}
+      height={IMG_BASE}
+      className={`object-contain max-h-[34px] max-w-[34px] h-[34px] w-[34px] ${iconClass(filled)}`}
     />
   );
 }
@@ -45,9 +50,9 @@ export function MarcadorIcon({ filled }: { filled?: boolean }) {
     <Image
       src="/marcador.png"
       alt="Resultados"
-      width={NAV_ICON_SIZE}
-      height={NAV_ICON_SIZE}
-      className={`object-contain ${iconClass(filled)}`}
+      width={IMG_BASE}
+      height={IMG_BASE}
+      className={`object-contain max-h-[34px] max-w-[34px] h-[34px] w-[34px] ${iconClass(filled)}`}
     />
   );
 }
@@ -57,10 +62,22 @@ export function RulesIcon({ filled }: { filled?: boolean }) {
     <Image
       src="/reglas.png"
       alt="Reglas"
-      width={NAV_ICON_SIZE}
-      height={NAV_ICON_SIZE}
-      className={`object-contain scale-125 ${iconClass(filled)}`}
+      width={IMG_BASE}
+      height={IMG_BASE}
+      className={`object-contain max-h-[34px] max-w-[34px] h-[34px] w-[34px] ${iconClass(filled)}`}
     />
   );
 }
 
+/** Ligas: mismo slot que el nav pero asset más grande (líneas finas del PNG) */
+export function GroupIcon({ filled }: { filled?: boolean }) {
+  return (
+    <Image
+      src="/ligas.png"
+      alt="Ligas"
+      width={IMG_BASE}
+      height={IMG_BASE}
+      className={`object-contain max-h-[44px] max-w-[44px] h-[44px] w-[44px] ${iconClass(filled)}`}
+    />
+  );
+}

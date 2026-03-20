@@ -61,3 +61,12 @@ export interface PuntosRow {
   puntos_obtenidos: number;
   tipo: 'exacto' | 'correcto' | 'tabla' | 'campeon';
 }
+
+/** Liga privada (amigos); mismo marcador global, ranking filtrado. */
+export interface PrivateLeagueRow {
+  id: string;
+  name: string;
+  invite_code: string;
+  member_count: number;
+  is_creator: boolean;
+}
