@@ -1,0 +1,35 @@
+FIFA WORLD CUP 2026 - FASE ELIMINATORIA (M73-M104),,,,,,,,,,
+M#,Ronda,Día,Fecha,CT,ET,Procedencia 1,vs,Procedencia 2,Estadio,Ciudad
+M73,Dieciseisavos,Dom,Jun 28,13:00,15:00,2° Grupo A,vs,2° Grupo B,SoFi Stadium,Los Ángeles
+M76,Dieciseisavos,Lun,Jun 29,11:00,13:00,1° Grupo C,vs,2° Grupo F,NRG Stadium,Houston
+M74,Dieciseisavos,Lun,Jun 29,14:30,16:30,1° Grupo E,vs,3° A/B/C/D/F,Gillette Stadium,Boston
+M75,Dieciseisavos,Lun,Jun 29,19:00,21:00,1° Grupo F,vs,2° Grupo C,Estadio BBVA,Monterrey
+M78,Dieciseisavos,Mar,Jun 30,11:00,13:00,2° Grupo E,vs,2° Grupo I,AT&T Stadium,Dallas
+M77,Dieciseisavos,Mar,Jun 30,15:00,17:00,1° Grupo I,vs,3° C/D/F/G/H,MetLife Stadium,Nueva York/NJ
+M79,Dieciseisavos,Mar,Jun 30,19:00,21:00,1° Grupo A,vs,3° C/E/F/H/I,Estadio Azteca,Ciudad de México
+M80,Dieciseisavos,Mié,Jul 1,10:00,12:00,1° Grupo L,vs,3° E/H/I/J/K,Mercedes-Benz Stadium,Atlanta
+M82,Dieciseisavos,Mié,Jul 1,14:00,16:00,1° Grupo G,vs,3° A/E/H/I/J,Lumen Field,Seattle
+M81,Dieciseisavos,Mié,Jul 1,18:00,20:00,1° Grupo D,vs,3° B/E/F/I/J,Levi's Stadium,San Francisco
+M84,Dieciseisavos,Jue,Jul 2,13:00,15:00,1° Grupo H,vs,2° Grupo J,SoFi Stadium,Los Ángeles
+M83,Dieciseisavos,Jue,Jul 2,17:00,19:00,2° Grupo K,vs,2° Grupo L,BMO Field,Toronto
+M85,Dieciseisavos,Jue,Jul 2,21:00,21:00,1° Grupo B,vs,3° E/F/G/I/J,BC Place,Vancouver
+M88,Dieciseisavos,Vie,Jul 3,12:00,14:00,2° Grupo D,vs,2° Grupo G,AT&T Stadium,Dallas
+M86,Dieciseisavos,Vie,Jul 3,16:00,16:00,1° Grupo J,vs,2° Grupo H,Hard Rock Stadium,Miami
+M87,Dieciseisavos,Vie,Jul 3,19:30,21:30,1° Grupo K,vs,3° D/E/I/J/L,Arrowhead Stadium,Kansas City
+M90,Octavos,Sáb,Jul 4,11:00,13:00,W(M73),vs,W(M75),NRG Stadium,Houston
+M89,Octavos,Sáb,Jul 4,15:00,17:00,W(M74),vs,W(M77),Lincoln Financial Field,Filadelfia
+M91,Octavos,Dom,Jul 5,14:00,16:00,W(M76),vs,W(M78),MetLife Stadium,Nueva York/NJ
+M92,Octavos,Dom,Jul 5,18:00,20:00,W(M79),vs,W(M80),Estadio Azteca,Ciudad de México
+M93,Octavos,Lun,Jul 6,13:00,15:00,W(M83),vs,W(M84),AT&T Stadium,Dallas
+M94,Octavos,Lun,Jul 6,18:00,20:00,W(M81),vs,W(M82),Lumen Field,Seattle
+M95,Octavos,Mar,Jul 7,10:00,12:00,W(M86),vs,W(M88),Mercedes-Benz Stadium,Atlanta
+M96,Octavos,Mar,Jul 7,14:00,16:00,W(M85),vs,W(M87),BC Place,Vancouver
+M97,Cuartos,Jue,Jul 9,14:00,16:00,W(M89),vs,W(M90),Gillette Stadium,Boston
+M98,Cuartos,Vie,Jul 10,13:00,15:00,W(M93),vs,W(M94),SoFi Stadium,Los Ángeles
+M99,Cuartos,Sáb,Jul 11,15:00,17:00,W(M91),vs,W(M92),Hard Rock Stadium,Miami
+M100,Cuartos,Sáb,Jul 11,19:00,21:00,W(M95),vs,W(M96),Arrowhead Stadium,Kansas City
+M101,SEMIFINAL,Mar,Jul 14,13:00,17:00,W(M97),vs,W(M98),AT&T Stadium,Dallas
+M102,SEMIFINAL,Mié,Jul 15,13:00,15:00,W(M99),vs,W(M100),Mercedes-Benz Stadium,Atlanta
+M103,3er LUGAR,Sáb,Jul 18,15:00,13:00,Perd. M101,vs,Perd. M102,Hard Rock Stadium,Miami
+M104,★ FINAL ★,Dom,Jul 19,13:00,17:00,Gan. M101,vs,Gan. M102,MetLife Stadium,Nueva York/NJ
+CT = Centro de México. ET = CT + 2h. W = Ganador.,,,,,,,,,,
