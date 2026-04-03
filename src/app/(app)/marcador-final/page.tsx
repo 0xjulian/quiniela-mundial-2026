@@ -447,8 +447,8 @@ export default function MarcadorFinalPage() {
                 </div>
               </div>
               <p className="text-[10px] text-[#0A0A0A]/55">
-                Si hubo empate en 90&apos; y definición por penales, más adelante podrás registrar quién
-                avanzó desde el panel admin (campos en BD listos).
+                Registra el marcador a los 90&apos; (sin tiempo extra ni penales). La quiniela compara
+                con ese marcador y con quién clasifica.
               </p>
             </div>
           </div>

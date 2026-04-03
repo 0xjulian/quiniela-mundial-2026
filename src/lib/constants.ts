@@ -4,17 +4,17 @@ export const GRUPOS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L
 export type GrupoLetter = (typeof GRUPOS)[number];
 
 export const EQUIPOS_POR_GRUPO: Record<GrupoLetter, string[]> = {
-  A: ['México', 'Sudáfrica', 'Corea del Sur', 'PO UEFA D'],
-  B: ['Canadá', 'PO UEFA A', 'Qatar', 'Suiza'],
+  A: ['México', 'Sudáfrica', 'Corea del Sur', 'República Checa'],
+  B: ['Canadá', 'Bosnia y Herzegovina', 'Qatar', 'Suiza'],
   C: ['Brasil', 'Marruecos', 'Haití', 'Escocia'],
-  D: ['Estados Unidos', 'Paraguay', 'Australia', 'PO UEFA C'],
+  D: ['Estados Unidos', 'Paraguay', 'Australia', 'Turquía'],
   E: ['Alemania', 'Curazao', 'Costa de Marfil', 'Ecuador'],
-  F: ['Países Bajos', 'Japón', 'PO UEFA B', 'Túnez'],
+  F: ['Países Bajos', 'Japón', 'Suecia', 'Túnez'],
   G: ['Bélgica', 'Egipto', 'Irán', 'Nueva Zelanda'],
   H: ['España', 'Cabo Verde', 'Arabia Saudita', 'Uruguay'],
-  I: ['Francia', 'Senegal', 'PO IC 2', 'Noruega'],
+  I: ['Francia', 'Senegal', 'Irak', 'Noruega'],
   J: ['Argentina', 'Argelia', 'Austria', 'Jordania'],
-  K: ['Portugal', 'PO IC 1', 'Uzbekistán', 'Colombia'],
+  K: ['Portugal', 'República Democrática del Congo', 'Uzbekistán', 'Colombia'],
   L: ['Inglaterra', 'Croacia', 'Ghana', 'Panamá'],
 };
 
@@ -23,10 +23,10 @@ export const BANDERAS_POR_EQUIPO: Record<string, string> = {
   'México': '🇲🇽',
   'Sudáfrica': '🇿🇦',
   'Corea del Sur': '🇰🇷',
-  'PO UEFA D': '',
+  'República Checa': '🇨🇿',
   // Grupo B
   'Canadá': '🇨🇦',
-  'PO UEFA A': '',
+  'Bosnia y Herzegovina': '🇧🇦',
   'Qatar': '🇶🇦',
   'Suiza': '🇨🇭',
   // Grupo C
@@ -38,7 +38,7 @@ export const BANDERAS_POR_EQUIPO: Record<string, string> = {
   'Estados Unidos': '🇺🇸',
   'Paraguay': '🇵🇾',
   'Australia': '🇦🇺',
-  'PO UEFA C': '',
+  'Turquía': '🇹🇷',
   // Grupo E
   'Alemania': '🇩🇪',
   'Curazao': '🇨🇼',
@@ -47,7 +47,7 @@ export const BANDERAS_POR_EQUIPO: Record<string, string> = {
   // Grupo F
   'Países Bajos': '🇳🇱',
   'Japón': '🇯🇵',
-  'PO UEFA B': '',
+  'Suecia': '🇸🇪',
   'Túnez': '🇹🇳',
   // Grupo G
   'Bélgica': '🇧🇪',
@@ -62,7 +62,7 @@ export const BANDERAS_POR_EQUIPO: Record<string, string> = {
   // Grupo I
   'Francia': '🇫🇷',
   'Senegal': '🇸🇳',
-  'PO IC 2': '',
+  'Irak': '🇮🇶',
   'Noruega': '🇳🇴',
   // Grupo J
   'Argentina': '🇦🇷',
@@ -71,7 +71,7 @@ export const BANDERAS_POR_EQUIPO: Record<string, string> = {
   'Jordania': '🇯🇴',
   // Grupo K
   'Portugal': '🇵🇹',
-  'PO IC 1': '',
+  'República Democrática del Congo': '🇨🇩',
   'Uzbekistán': '🇺🇿',
   'Colombia': '🇨🇴',
   // Grupo L

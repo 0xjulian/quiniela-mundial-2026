@@ -45,8 +45,16 @@ export default function ReglasPage() {
             <li>
               <strong>Fase eliminatoria:</strong>
               <ul className="ml-4 mt-1 space-y-0.5">
-                <li>+{PUNTOS_EXACTO} pts por resultado exacto</li>
-                <li>+{PUNTOS_RESULTADO} pt por resultado correcto (ganador acertado)</li>
+                <li>
+                  El marcador para comparar predicción vs. real es solo el de los{" "}
+                  <strong>90 minutos</strong> (no entran goles de tiempo extra ni de penales).
+                </li>
+                <li>
+                  Los puntos los da acertar <strong>quién pasa</strong> de ronda; si hay empate a 90&apos;,
+                  debes indicar el equipo clasificado.
+                </li>
+                <li>+{PUNTOS_EXACTO} pts por resultado exacto (90&apos;)</li>
+                <li>+{PUNTOS_RESULTADO} pt por resultado correcto (mismo ganador o empate a 90&apos; + mismo clasificado)</li>
               </ul>
             </li>
             <li>

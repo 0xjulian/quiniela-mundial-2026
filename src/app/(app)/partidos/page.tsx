@@ -243,8 +243,9 @@ export default function PartidosPage() {
       <p className="text-xs font-serif text-[#0A0A0A]/70 mb-2">
         <strong>Usuarios:</strong> solo se desbloquea la siguiente fase cuando todos los marcadores reales
         de la anterior están en <strong>Resultados</strong>. La pestaña activa es la del momento; las
-        demás sirven para <em>look back</em>. En eliminatoria: empate en 90&apos; + quién avanza en
-        penales.
+        demás sirven para <em>look back</em>. En eliminatoria el marcador vale solo por los{" "}
+        <strong>90 minutos</strong> (no cuentan goles en tiempo extra ni en penales); para puntos importa
+        acertar <strong>quién pasa</strong> de ronda.
       </p>
       {esAdmin && (
         <p className="text-[11px] font-serif text-[#0D7A3E]/90 mb-2 rounded-lg bg-[#0D7A3E]/10 px-2 py-1.5">
@@ -460,7 +461,10 @@ export default function PartidosPage() {
                 </div>
                 {ko && empatePred && aprobado && !cerrado && (
                   <div className="rounded-lg bg-[#FFF9E6] border border-[#D4A843]/40 px-3 py-2 text-[11px] font-serif text-[#0A0A0A]/90">
-                    <p className="font-semibold mb-2">Empate en 90&apos; — ¿quién avanza? (penales)</p>
+                    <p className="font-semibold mb-1">Empate en 90&apos; — ¿quién clasifica?</p>
+                    <p className="text-[10px] text-[#0A0A0A]/70 mb-2">
+                      El marcador solo refleja los 90&apos;; aquí eliges quién avanza para los puntos.
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"

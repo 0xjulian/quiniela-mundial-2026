@@ -16,6 +16,7 @@ Cada archivo SQL tiene **una sola función**. Ejecutar en el SQL Editor **en est
 | 10 | **10-knockout-migration.sql** | *(Migración)* Fase `dieciseisavos` + columnas eliminatoria (`ganador_equipo`, penales, `published_at`, etc.). |
 | 11 | **11-seed-knockout-partidos.sql** | *(Opcional)* Calendario eliminatorio **M73–M104** (ver `data/Mundial_2026_FaseEliminatoria.csv`). |
 | 12 | **12-private-leagues.sql** | *(Migración)* Ligas con amigos: tablas `private_leagues` / `private_league_members`, RLS y RPCs (`create_private_league`, `join_private_league`, `my_private_leagues`, `get_leaderboard_league`). |
+| 13 | **13-update-playoff-equipos.sql** | *(Migración)* Sustituye placeholders de repechaje por equipos definitivos (República Checa, Bosnia, Turquía, Suecia en F, Irak, RD Congo; G queda Nueva Zelanda) en `partidos`. |
 
 ---
 

@@ -13,5 +13,11 @@ export function createClient() {
       '[Supabase] NEXT_PUBLIC_SUPABASE_URL o NEXT_PUBLIC_SUPABASE_ANON_KEY no están definidos. Crea .env.local con esos valores (ver .env.local.example).'
     );
   }
-  return createSupabaseClient(effectiveUrl, effectiveKey);
+  return createSupabaseClient(effectiveUrl, effectiveKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
+  });
 }

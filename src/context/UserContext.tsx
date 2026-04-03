@@ -3,7 +3,10 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
+import { registerSupabaseDevRejectionSuppression } from "@/lib/supabase-dev-rejection-suppression";
 import type { User } from "@/types/db";
+
+registerSupabaseDevRejectionSuppression();
 
 const UserContext = createContext<{
   user: User | null;
@@ -14,6 +17,9 @@ const UserContext = createContext<{
   loading: true,
   profileError: null,
 });
+
+const NETWORK_MSG =
+  "No se pudo conectar con Supabase. Revisa internet, que el proyecto no esté pausado en supabase.com, y que .env.local tenga NEXT_PUBLIC_SUPABASE_URL y la clave correcta.";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -38,6 +44,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         // Sesión rota en el navegador (token revocado, proyecto distinto, datos borrados)
         if (authError) {
           const m = (authError.message ?? "").toLowerCase();
+          // Sin red / Supabase inalcanzable: no borrar sesión local; el usuario puede reintentar
+          if (m.includes("failed to fetch") || m.includes("network") || m.includes("fetch")) {
+            setProfileError(NETWORK_MSG);
+            setLoading(false);
+            return;
+          }
           if (
             m.includes("refresh") ||
             m.includes("invalid") ||
@@ -95,11 +107,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           return;
         }
         const isNetwork = /failed to fetch|network|load failed/i.test(message);
-        setProfileError(
-          isNetwork
-            ? "No se pudo conectar. Revisa tu conexión a internet y que .env.local tenga NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY correctos."
-            : "Error al cargar: " + message
-        );
+        setProfileError(isNetwork ? NETWORK_MSG : "Error al cargar: " + message);
       } finally {
         if (!cancelled) setLoading(false);
       }

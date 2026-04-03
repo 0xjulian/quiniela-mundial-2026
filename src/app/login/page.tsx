@@ -3,7 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
+import { registerSupabaseDevRejectionSuppression } from "@/lib/supabase-dev-rejection-suppression";
 import { emailFromUsername } from "@/lib/auth";
+
+registerSupabaseDevRejectionSuppression();
 
 type Mode = "login" | "register";
 
